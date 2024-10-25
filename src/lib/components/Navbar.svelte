@@ -7,14 +7,14 @@
 </script>
 
 <div
-	class="nav-shadow sticky top-2 flex w-full place-items-center justify-between rounded-2xl border border-gray-200 dark:border-zinc-700 py-3.5 ~max-w-[21.25rem]/lg ~px-5/10"
+	class="nav-shadow sticky top-2 flex w-full place-items-center justify-between rounded-2xl border border-gray-200 py-3.5 ~max-w-[21.25rem]/lg ~px-5/10 dark:border-zinc-700 bg-neutral-100 dark:bg-zinc-800"
 >
-	<p class="~text-lg/2xl">Mordechai's Blog</p>
-	<button on:click={() => toggleDarkMode(context)}>
+	<button class="~text-lg/2xl" onclick={() => (context.currentTab = 0)}>Mordechai's Blog</button>
+	<button onclick={() => toggleDarkMode(context)}>
 		{#if context.isDarkMode}
-			<Sun class="~size-6/7" />
+			<Sun class="size-6" />
 		{:else}
-			<Moon class="~size-6/7" />
+			<Moon class="size-6" />
 		{/if}
 	</button>
 </div>

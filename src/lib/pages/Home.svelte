@@ -1,8 +1,27 @@
 <script lang="ts">
+	import type { IContext } from '$lib';
 	import Categories from '$lib/components/Categories.svelte';
+	import PostCard from '$lib/components/PostCard.svelte';
+	import { getContext } from 'svelte';
 	import { Github, Linkedin, Filter } from 'svelte-feathers';
 
-    let currentCategory = $state(0)
+	let currentCategory = $state(0);
+	let context: IContext = getContext('context');
+
+	let filteredPosts = $derived.by(() => {
+		switch (currentCategory) {
+			case 0:
+				return context.posts;
+			case 1:
+				return context.posts.filter((post) => post.category === 'Rust');
+			case 2:
+				return context.posts.filter((post) => post.category === 'Svelte');
+			case 3:
+				return context.posts.filter((post) => post.category === 'Technology');
+			default:
+				return context.posts;
+		}
+	});
 </script>
 
 <div class="flex w-full flex-col gap-5 ~max-w-[21.25rem]/6xl">
@@ -35,4 +54,14 @@
 		<Filter class="lg:hidden" />
 		<Categories bind:currentCategory class="hidden lg:flex" />
 	</div>
+
+	<!-- Posts Section -->
+
+	{#key filteredPosts}
+		<div class="grid grid-cols-1 gap-10 lg:grid-cols-3">
+			{#each filteredPosts as post (post.slug)}
+				<PostCard {post} />
+			{/each}
+		</div>
+	{/key}
 </div>

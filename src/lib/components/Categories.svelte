@@ -7,6 +7,12 @@
 
 <div class={twMerge('flex gap-2.5', className)}>
 	{#each categories as category, i}
-		<button class='~px-3/4 ~py-1.5/2.5 rounded-xl transition-colors ease-in-out duration-200 {currentCategory === i ? 'bg-gray-200 dark:bg-zinc-700' : ''}' onclick={() => (currentCategory = i)}>{category}</button>
+		<button
+			class="rounded-xl transition-colors duration-200 ease-in-out ~px-3/4 ~py-1.5/2.5 {currentCategory ===
+			i
+				? 'bg-gray-200 dark:bg-zinc-700'
+				: ''}"
+			onclick={() => (currentCategory = i)}>{category}</button
+		>
 	{/each}
 </div>

@@ -1,0 +1,10 @@
+---
+title: EPUB vs PDF Choosing the Right Format
+description: In this post we will explore the differences between two digital documents formats and their uses.
+date: 2024-10-23 14:16:25
+image: mari-potter-Zh0mcQuw_EQ-unsplash.jpg
+imageCredit: Photo by <a href="https://unsplash.com/@maripotter?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Mari Potter</a> on <a href="https://unsplash.com/photos/brown-wooden-book-shelf-Zh0mcQuw_EQ?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+category: Technology
+---
+
+## Hellosdawdawd
