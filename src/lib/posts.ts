@@ -1,5 +1,6 @@
 import matter from 'gray-matter';
 import path from 'path';
+import fs from 'fs';
 
 export const processPost = (path: string): IPost => {
 	const { data, content } = matter.read(path, { excerpt: false });
@@ -33,7 +34,16 @@ export const getPosts = async (): Promise<Posts> => {
 
 	const posts = Object.keys(postFiles).map((filePath) => {
 		const absolutePath = path.join(baseDir, filePath);
-		console.log(absolutePath);
+		const dirPath = path.dirname(absolutePath);
+		console.log('Directory path:', dirPath);
+
+		// List files in the directory
+		try {
+			const files = fs.readdirSync(dirPath);
+			console.log('Files in directory:', files);
+		} catch (error) {
+			console.error('Error reading directory:', error);
+		}
 		return processPost(absolutePath);
 	});
 
