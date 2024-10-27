@@ -2,7 +2,6 @@ import matter from 'gray-matter';
 import path from 'path';
 
 export const processPost = (path: string): IPost => {
-	console.log(path);
 	const { data, content } = matter.read(path, { excerpt: false });
 
 	const attributes = data as {
@@ -28,19 +27,18 @@ export const processPost = (path: string): IPost => {
 	};
 };
 
-
 export const getPosts = async (): Promise<Posts> => {
-  const postFiles = import.meta.glob('/src/lib/posts/*.svx');
-  const baseDir = process.cwd();
+	const postFiles = import.meta.glob('/src/lib/posts/*.svx');
+	const baseDir = process.cwd();
 
-  const posts = Object.keys(postFiles).map((filePath) => {
-    const absolutePath = path.join(baseDir, filePath);
-    return processPost(absolutePath);
-  });
+	const posts = Object.keys(postFiles).map((filePath) => {
+		const absolutePath = path.join(baseDir, filePath);
+		console.log(absolutePath);
+		return processPost(absolutePath);
+	});
 
-  return posts.sort((a, b) => b.date.getTime() - a.date.getTime());
-}
-
+	return posts.sort((a, b) => b.date.getTime() - a.date.getTime());
+};
 
 export interface IPost {
 	slug: string;
