@@ -15,7 +15,12 @@ const config = {
 		adapter: adapter()
 	},
 
-	extensions: ['.svelte', '.svx']
+	extensions: ['.svelte', '.svx'],
+	server: {
+		fs: {
+			allow: ['..'] // This allows serving files from the project root and up
+		}
+	}
 };
 
 export default config;
