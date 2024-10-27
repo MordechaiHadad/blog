@@ -10,7 +10,10 @@
     let Post = $state(null);
     let post = context.posts.find(post => post.slug === slug);
 
-  
+    onMount(async () => {
+        const module = await import(`$lib/posts/${slug}.svx`);
+        Post = module.default
+    });
 </script>
 
 <div class="flex flex-col w-full gap-5 ~max-w-[21.25rem]/4xl">
@@ -48,5 +51,9 @@
 
 </p>
 </div>
-    
+    <div class="prose w-full max-w-none mt-3">
+        {#if Post}
+            <Post />
+        {/if}
+    </div>
 </div>
