@@ -1,6 +1,4 @@
 import matter from 'gray-matter';
-import path from 'path';
-import fs from 'fs';
 
 export const processPost = (path: string): IPost => {
 	const { data, content } = matter.read(path, { excerpt: false });
@@ -30,13 +28,10 @@ export const processPost = (path: string): IPost => {
 
 export const getPosts = async (): Promise<Posts> => {
 	const postFiles = import.meta.glob('/static/posts/*.svx');
-	const baseDir = process.cwd();
+
+	console.log(postFiles);
 
 	const posts = Object.keys(postFiles).map((filePath) => {
-		// const absolutePath = path.join(baseDir, filePath);
-		// const temp = path.resolve(baseDir, '..');
-		// const srcContents = fs.readdirSync(temp);
-		// console.log(srcContents);
 		return processPost('.' + filePath);
 	});
 
