@@ -1,8 +1,0 @@
-{
-  "routes": [
-    {
-      "src": "/posts/(.*)",
-      "dest": "/posts/$1"
-    }
-  ]
-}
