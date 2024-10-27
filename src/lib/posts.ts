@@ -28,6 +28,7 @@ export const processPost = (path: string): IPost => {
 
 export const getPosts = async (): Promise<Posts> => {
 	const postFiles = import.meta.glob('/static/posts/*.svx');
+
 	console.log(postFiles);
 
 	const posts = Object.keys(postFiles).map((filePath) => {
