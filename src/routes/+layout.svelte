@@ -3,13 +3,14 @@
 	import Navbar from '$lib/components/Navbar.svelte';
 	import { onMount, setContext } from 'svelte';
 	import '../app.css';
+	export const prerender = true;
 
 	let { children, data } = $props();
 
 	let context: IContext = $state({
 		isDarkMode: false,
 		currentTab: 0,
-		posts: [],
+		posts: []
 	});
 
 	context.posts = data.posts;
@@ -34,7 +35,7 @@
 </script>
 
 <div
-	class="relative flex w-full min-h-screen flex-col place-items-center pb-5 text-neutral-900 ~gap-10/12 dark:text-neutral-100"
+	class="relative flex min-h-screen w-full flex-col place-items-center pb-5 text-neutral-900 ~gap-10/12 dark:text-neutral-100"
 >
 	<Navbar />
 
