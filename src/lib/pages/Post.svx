@@ -11,7 +11,7 @@
     let post = context.posts.find(post => post.slug === slug);
 
     onMount(async () => {
-        const module = await import(`/src/lib/posts/${slug}.svx`);
+        const module = await import(`$lib/posts/${slug}.svx`);
         Post = module.default
     });
 </script>

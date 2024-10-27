@@ -34,8 +34,8 @@ export const getPosts = async (): Promise<Posts> => {
 
 	const posts = Object.keys(postFiles).map((filePath) => {
 		const absolutePath = path.join(baseDir, filePath);
-	 const srcContents = fs.readdirSync(baseDir);
-	 console.log(srcContents);
+		const srcContents = fs.readdirSync(baseDir);
+		console.log(srcContents);
 		return processPost(absolutePath);
 	});
 
