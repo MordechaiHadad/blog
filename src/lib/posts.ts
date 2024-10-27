@@ -2,6 +2,7 @@ import matter from 'gray-matter';
 import path from 'path';
 
 export const processPost = (path: string): IPost => {
+	console.log(path);
 	const { data, content } = matter.read(path, { excerpt: false });
 
 	const attributes = data as {
