@@ -46,14 +46,17 @@
         </div>
     </div>
 </div>
-<p class="text-xs">
-{@html post.imageCredit}
-
-</p>
-</div>
+        <p class="text-xs credit">{@html post.imageCredit}</p>
+    </div>
     <div class="prose w-full max-w-none mt-3">
         {#if Post}
             <Post />
         {/if}
     </div>
 </div>
+
+<style>
+    :global(.credit a) {
+        @apply text-blue-500;
+    }
+</style>
