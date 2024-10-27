@@ -20,7 +20,7 @@ export const processPost = (path: string): IPost => {
 		title: attributes.title,
 		description: attributes.description,
 		date: new Date(attributes.date),
-		image: attributes.image,
+		image: `/${attributes.image}`,
 		imageCredit: attributes.imageCredit,
 		category: attributes.category,
 		content

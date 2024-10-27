@@ -13,12 +13,10 @@
 	let context: IContext = getContext('context');
 </script>
 
-<button
+<a
 	class="flex flex-col"
-	onclick={() => {
-		context.currentTab = 1;
-		context.currentSlug = post.slug;
-	}}
+	href="/articles/{post.slug}"
+
 >
 	<div class="relative">
 		<img src={post.image} alt="{post.slug} cover" class="rounded-2xl" />
@@ -39,4 +37,4 @@
 		<h2 class="text-start text-lg font-bold">{post.title}</h2>
 		<p class="line-clamp-2 text-start text-sm text-neutral-400">{post.description}</p>
 	</div>
-</button>
+</a>
