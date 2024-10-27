@@ -1,8 +1,12 @@
 import matter from 'gray-matter';
 import path from 'path';
+import fs from 'fs';
+import { read } from '$app/server';
 
-export const processPost = (path: string): IPost => {
-	const { data, content } = matter.read(path, { excerpt: false });
+export const processPost = async (path: string): Promise<IPost> => {
+	const asset = read(path);
+	const text = await asset.text();
+	const { data, content } = matter(text);
 
 	const attributes = data as {
 		title: string;
@@ -20,7 +24,7 @@ export const processPost = (path: string): IPost => {
 		title: attributes.title,
 		description: attributes.description,
 		date: new Date(attributes.date),
-		image: attributes.image,
+		image: `/${attributes.image}`,
 		imageCredit: attributes.imageCredit,
 		category: attributes.category,
 		content
@@ -28,13 +32,18 @@ export const processPost = (path: string): IPost => {
 };
 
 export const getPosts = async (): Promise<Posts> => {
-	const postFiles = import.meta.glob('/src/lib/posts/*.svx');
-	const baseDir = path.resolve();
-
-	const posts = Object.keys(postFiles).map((filePath) => {
-		const absolutePath = path.resolve(baseDir + filePath);
-		return processPost(absolutePath);
+	const postFiles = import.meta.glob<string>('../../posts/*.svx', {
+		query: '?url',
+		eager: true,
+		import: "default"
 	});
+	const absolutePath = process.cwd();
+
+	const posts = await Promise.all(Object.keys(postFiles).map(async (filePath) => {
+		const srcContents = fs.readdirSync(absolutePath);
+		console.log(srcContents)
+		return await processPost(filePath);
+	}));
 
 	return posts.sort((a, b) => b.date.getTime() - a.date.getTime());
 };

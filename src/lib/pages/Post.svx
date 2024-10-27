@@ -4,26 +4,22 @@
 	import { Clock, Calendar } from 'svelte-feathers';
 	import { calculateReadingTime } from '$lib';
     
+    let { Post, slug } = $props();
     let context: IContext = getContext('context');
 
-    let Post = $state(null);
-    let post = context.posts.find((post) => post.slug === context.currentSlug);
-
-    onMount(async () => {
-        const module = await import(`../posts/${context.currentSlug}.svx`);
-        Post = module.default
-  });
+    let post = context.posts.find(post => post.slug === slug);
 </script>
 
-<div class="flex flex-col size-full ~max-w-[21.25rem]/6xl">
+<div class="flex flex-col w-full gap-5 ~max-w-[21.25rem]/4xl">
 
+<div class="flex flex-col gap-2.5">
 <div class="flex flex-col w-full gap-1.5 relative">
     <img src={post.image} alt={post.title} class="w-full rounded-lg object-cover max-h-80" />
     <div class="absolute flex size-full flex-col place-content-center place-items-center bg-neutral-900/60 text-neutral-100 px-2.5">
         <div class="flex flex-col gap-2.5 w-full max-w-1/2 lg:place-items-center">
             <h1 class="font-bold text-3xl">{post.title}</h1>
             <p>{post.description}</p>
-	        <div class="flex gap-3 text-start text-xs flex-wrap">
+	        <div class="flex gap-3 text-start ~text-xs/sm flex-wrap">
                 <div class="flex gap-1.5">
                     <Calendar class="size-4" />
 		            <p>
@@ -43,9 +39,18 @@
 	        </div>
         </div>
     </div>
-
 </div>
-    <div class="prose w-full mt-3">
-        <Post />
+        <p class="text-xs credit">{@html post.imageCredit}</p>
+    </div>
+    <div class="prose w-full max-w-none mt-3">
+        {#if Post}
+            <Post />
+        {/if}
     </div>
 </div>
+
+<style>
+    :global(.credit a) {
+        @apply text-blue-500;
+    }
+</style>

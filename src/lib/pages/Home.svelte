@@ -2,24 +2,26 @@
 	import type { IContext } from '$lib';
 	import Categories from '$lib/components/Categories.svelte';
 	import PostCard from '$lib/components/PostCard.svelte';
+	import type { Posts } from '$lib/posts';
 	import { getContext } from 'svelte';
 	import { Github, Linkedin, Filter } from 'svelte-feathers';
 
+	let { posts }: { posts: Posts } = $props();
 	let currentCategory = $state(0);
 	let context: IContext = getContext('context');
 
 	let filteredPosts = $derived.by(() => {
 		switch (currentCategory) {
 			case 0:
-				return context.posts;
+				return posts;
 			case 1:
-				return context.posts.filter((post) => post.category === 'Rust');
+				return posts.filter((post) => post.category === 'Rust');
 			case 2:
-				return context.posts.filter((post) => post.category === 'Svelte');
+				return posts.filter((post) => post.category === 'Svelte');
 			case 3:
-				return context.posts.filter((post) => post.category === 'Technology');
+				return posts.filter((post) => post.category === 'Technology');
 			default:
-				return context.posts;
+				return posts;
 		}
 	});
 </script>

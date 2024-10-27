@@ -1,10 +1,5 @@
-import type { Posts } from './posts';
-
 export interface IContext {
-	currentTab: number;
 	isDarkMode: boolean;
-	posts: Posts;
-	currentSlug: string;
 }
 
 export const toggleDarkMode = (context: IContext) => {
