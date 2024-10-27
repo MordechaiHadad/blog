@@ -32,10 +32,8 @@ export const getPosts = async (): Promise<Posts> => {
 	const postFiles = import.meta.glob('/src/lib/posts/*.svx');
 	const baseDir = process.cwd();
 
-	const parentDir = path.resolve(baseDir, '..');
-
-	const dirContents = await fs.promises.readdir(parentDir);
-	console.log(dirContents);
+	const dirContents = await fs.promises.readdir(baseDir);
+	console.log(baseDir ,dirContents);
 
 	const posts = Object.keys(postFiles).map((filePath) => {
 		const absolutePath = path.join(baseDir, filePath);
