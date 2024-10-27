@@ -32,18 +32,11 @@ export const getPosts = async (): Promise<Posts> => {
 	const postFiles = import.meta.glob('/src/lib/posts/*.svx');
 	const baseDir = process.cwd();
 
+	const dirContents = await fs.promises.readdir(baseDir);
+	console.log(dirContents);
+
 	const posts = Object.keys(postFiles).map((filePath) => {
 		const absolutePath = path.join(baseDir, filePath);
-		const dirPath = path.dirname(absolutePath);
-		console.log('Directory path:', dirPath);
-
-		// List files in the directory
-		try {
-			const files = fs.readdirSync(dirPath);
-			console.log('Files in directory:', files);
-		} catch (error) {
-			console.error('Error reading directory:', error);
-		}
 		return processPost(absolutePath);
 	});
 
