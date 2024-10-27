@@ -33,11 +33,11 @@ export const getPosts = async (): Promise<Posts> => {
 	const baseDir = process.cwd();
 
 	const posts = Object.keys(postFiles).map((filePath) => {
-		const absolutePath = path.join(baseDir, filePath);
-		const temp = path.resolve(baseDir, "..");
-		const srcContents = fs.readdirSync(temp);
-		console.log(srcContents);
-		return processPost(absolutePath);
+		// const absolutePath = path.join(baseDir, filePath);
+		// const temp = path.resolve(baseDir, '..');
+		// const srcContents = fs.readdirSync(temp);
+		// console.log(srcContents);
+		return processPost('.' + filePath);
 	});
 
 	return posts.sort((a, b) => b.date.getTime() - a.date.getTime());
