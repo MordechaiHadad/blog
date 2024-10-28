@@ -4,4 +4,4 @@
     let { data } = $props();
 </script>
 
-<Post  slug={data.slug} posts={data.posts} />
+<Post post={data.post} compiledHtml={data.compiledHtml} />

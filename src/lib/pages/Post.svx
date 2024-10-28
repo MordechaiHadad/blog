@@ -4,10 +4,7 @@
 	import { Clock, Calendar } from 'svelte-feathers';
 	import { calculateReadingTime } from '$lib';
     
-    let { slug, posts } = $props();
-    let context: IContext = getContext('context');
-
-    let post = posts.find(post => post.slug === slug);
+    let { post, compiledHtml } = $props();
 </script>
 
 <div class="flex flex-col w-full gap-5 ~max-w-[21.25rem]/4xl">
@@ -43,7 +40,7 @@
         <p class="text-xs credit">{@html post.imageCredit}</p>
     </div>
     <div class="prose w-full max-w-none mt-3">
-        {@html post.content}
+        {@html compiledHtml.code}
     </div>
 </div>
 

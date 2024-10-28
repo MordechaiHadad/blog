@@ -1,14 +1,11 @@
 <script lang="ts">
-	import type { IContext } from '$lib';
 	import Categories from '$lib/components/Categories.svelte';
 	import PostCard from '$lib/components/PostCard.svelte';
 	import type { Posts } from '$lib/posts';
-	import { getContext } from 'svelte';
 	import { Github, Linkedin, Filter } from 'svelte-feathers';
 
 	let { posts }: { posts: Posts } = $props();
 	let currentCategory = $state(0);
-	let context: IContext = getContext('context');
 
 	let filteredPosts = $derived.by(() => {
 		switch (currentCategory) {
