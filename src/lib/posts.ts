@@ -37,13 +37,12 @@ export const getPosts = async (): Promise<Posts> => {
 		eager: true,
 		import: "default"
 	});
-	const absolutePath = process.cwd();
 
-	const posts = await Promise.all(Object.keys(postFiles).map(async (filePath) => {
-		const srcContents = fs.readdirSync(absolutePath);
-		console.log(srcContents)
-		return await processPost(filePath);
-	}));
+    let posts: Posts = [];
+    for (const key in postFiles) {
+        const post =  await processPost(postFiles[key]);
+        posts.push(post);
+    }
 
 	return posts.sort((a, b) => b.date.getTime() - a.date.getTime());
 };
