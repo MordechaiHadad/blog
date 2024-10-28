@@ -12,7 +12,7 @@
 <div class="flex flex-col gap-2.5">
 <div class="flex flex-col w-full gap-1.5 relative">
     <img src={post.image} alt={post.title} class="w-full rounded-lg object-cover max-h-80" />
-    <div class="absolute flex size-full flex-col place-content-center place-items-center bg-neutral-900/60 text-neutral-100 px-2.5">
+    <div class="absolute flex size-full flex-col place-content-center place-items-center bg-neutral-900/60 text-neutral-100 px-2.5 rounded-lg">
         <div class="flex flex-col gap-2.5 w-full max-w-1/2 lg:place-items-center">
             <h1 class="font-bold text-3xl">{post.title}</h1>
             <p>{post.description}</p>
