@@ -14,7 +14,7 @@
 			class="fixed right-0 top-[42%] z-10 flex flex-col gap-4 rounded-md border border-gray-200 bg-neutral-100 p-4 shadow-md dark:border-zinc-700 dark:bg-neutral-900"
 			transition:fly={{ x: 50, duration: 500 }}
 		>
-			<button class="w-fit -translate-x-2" onclick={() => (isTableOfContentsVisible = false)}>
+			<button class="-translate-x-2" onclick={() => (isTableOfContentsVisible = false)}>
 				<ChevronRight class="size-6" />
 			</button>
 			<h4 class="size-lg font-bold">Table Of Contents</h4>
