@@ -2,7 +2,7 @@
 	import type { IContext } from "$lib";
 	import { getContext, onMount } from "svelte";
 	import { Clock, Calendar, ChevronRight } from 'svelte-feathers';
-	import { calculateReadingTime } from '$lib';
+	import { calculateReadingTime, normalizeApostrophes } from '$lib';
     import { fade } from "svelte/transition";
     
     let { post, compiledHtml, headers } = $props();
@@ -13,7 +13,8 @@
             headers.forEach(header => {
                 const elements = contentDiv.querySelectorAll(`h${header.level}`);
                 for (const element of elements) {
-                    if (element.textContent.trim() === header.text) {
+                    
+                    if (normalizeApostrophes(element.textContent.trim()) === normalizeApostrophes(header.text)) {
                         element.id = header.id;
                         break;
                     }

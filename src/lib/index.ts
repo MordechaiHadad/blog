@@ -20,16 +20,23 @@ export const extractHeaders = (content: string) => {
 	const headers = [];
 	let match;
 
-	while ((match = headerRegex.exec(content)) !== null) {
-		headers.push({
-			level: match[1].length,
-			text: match[2].trim(),
-			id: match[2]
-				.toLowerCase()
-				.replace(/[:\s]+/g, '-')
-				.replace(/^-+|-+$/g, '')
-		});
-	}
+    while ((match = headerRegex.exec(content)) !== null) {
+        headers.push({
+            level: match[1].length,
+            text: match[2].trim(),
+            id: match[2]
+                .toLowerCase()
+                .replace(/[:\s]+/g, '-')
+                .replace(/'/g, '')
+                .replace(/^-+|-+$/g, '')
+        });
+    }
+
 
 	return headers;
 };
+
+export const normalizeApostrophes = (str: string): string => {
+    return str.replace(/[\u2018\u2019]/g, "'");
+}
+
