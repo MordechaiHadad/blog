@@ -1,6 +1,4 @@
 import matter from 'gray-matter';
-import path from 'path';
-import fs from 'fs';
 import { read } from '$app/server';
 
 export const processPost = async (path: string): Promise<IPost> => {
