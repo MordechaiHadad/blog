@@ -1,7 +1,7 @@
 import matter from 'gray-matter';
 import { read } from '$app/server';
 
-export const processPost = async (path: string): Promise<IPost> => {
+export const processPost = async (path: string, slug: string): Promise<IPost> => {
 	const asset = read(path);
 	const text = await asset.text();
 	const { data, content } = matter(text);
@@ -15,10 +15,8 @@ export const processPost = async (path: string): Promise<IPost> => {
 		category: string;
 	};
 
-	const slug = path.split(/[/\\]/).pop()!;
-
 	return {
-		slug: slug.replace('.svx', ''),
+		slug,
 		title: attributes.title,
 		description: attributes.description,
 		date: new Date(attributes.date),
@@ -38,7 +36,10 @@ export const getPosts = async (): Promise<Posts> => {
 
     let posts: Posts = [];
     for (const key in postFiles) {
-        const post =  await processPost(postFiles[key]);
+		const slug = key.split('/').pop()?.replace('.svx', '');
+		if (!slug) continue;
+
+        const post = await processPost(postFiles[key], slug);
         posts.push(post);
     }
 
