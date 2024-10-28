@@ -24,7 +24,10 @@ export const extractHeaders = (content: string) => {
 		headers.push({
 			level: match[1].length,
 			text: match[2].trim(),
-			id: match[2].toLowerCase().replace(/\s+/g, '-')
+			id: match[2]
+				.toLowerCase()
+				.replace(/[:\s]+/g, '-')
+				.replace(/^-+|-+$/g, '')
 		});
 	}
 

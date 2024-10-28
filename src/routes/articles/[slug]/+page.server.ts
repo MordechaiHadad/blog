@@ -1,3 +1,4 @@
+import { extractHeaders } from '$lib';
 import { error } from '@sveltejs/kit';
 import { compile } from 'mdsvex';
 
@@ -7,9 +8,12 @@ export async function load({ params, parent }) {
 
 	if (!post) throw error(404, 'Post not found');
 
+
+    const headers = extractHeaders(post.content);
 	const compiledHtml = await compile(post.content);
 	return {
 		post,
-		compiledHtml
+		compiledHtml,
+		headers
 	};
 }

@@ -1,14 +1,14 @@
 <script lang="ts">
 	import type { IContext } from "$lib";
 	import { getContext, onMount } from "svelte";
-	import { Clock, Calendar } from 'svelte-feathers';
-	import { calculateReadingTime, extractHeaders  } from '$lib';
+	import { Clock, Calendar, ChevronRight } from 'svelte-feathers';
+	import { calculateReadingTime } from '$lib';
+    import { fade } from "svelte/transition";
     
-    let { post, compiledHtml } = $props();
+    let { post, compiledHtml, headers } = $props();
     let contentDiv: HTMLDivElement;
 
     onMount(() => {
-        const headers = extractHeaders(post.content);
         if (contentDiv) {
             headers.forEach(header => {
                 const elements = contentDiv.querySelectorAll(`h${header.level}`);
@@ -23,7 +23,7 @@
     });
 </script>
 
-<div class="flex flex-col w-full gap-5 ~max-w-[21.25rem]/4xl">
+<div class="flex flex-col w-full gap-5 ~max-w-[21.25rem]/4xl relative"> 
 
 <div class="flex flex-col gap-2.5">
 <div class="flex flex-col w-full gap-1.5 relative">
@@ -55,7 +55,7 @@
 </div>
         <p class="text-xs credit">{@html post.imageCredit}</p>
     </div>
-    <div bind:this={contentDiv} class="prose w-full max-w-none mt-3">
+    <div bind:this={contentDiv} class="prose w-full max-w-none mt-3 content">
         {@html compiledHtml.code}
     </div>
 </div>
@@ -63,5 +63,8 @@
 <style>
     :global(.credit a) {
         @apply text-blue-500;
+    }
+    :global(.content h2) {
+        scroll-margin-top: 100px; 
     }
 </style>
