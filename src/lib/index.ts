@@ -14,3 +14,19 @@ export const calculateReadingTime = (text: string) => {
 	const readingTimeMinutes = Math.ceil(wordCount / wordsPerMinute);
 	return readingTimeMinutes;
 };
+
+export const extractHeaders = (content: string) => {
+	const headerRegex = /^(#{1,6})\s+(.+)$/gm;
+	const headers = [];
+	let match;
+
+	while ((match = headerRegex.exec(content)) !== null) {
+		headers.push({
+			level: match[1].length,
+			text: match[2].trim(),
+			id: match[2].toLowerCase().replace(/\s+/g, '-')
+		});
+	}
+
+	return headers;
+};

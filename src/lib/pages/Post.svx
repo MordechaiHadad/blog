@@ -2,9 +2,25 @@
 	import type { IContext } from "$lib";
 	import { getContext, onMount } from "svelte";
 	import { Clock, Calendar } from 'svelte-feathers';
-	import { calculateReadingTime } from '$lib';
+	import { calculateReadingTime, extractHeaders  } from '$lib';
     
     let { post, compiledHtml } = $props();
+    let contentDiv: HTMLDivElement;
+
+    onMount(() => {
+        const headers = extractHeaders(post.content);
+        if (contentDiv) {
+            headers.forEach(header => {
+                const elements = contentDiv.querySelectorAll(`h${header.level}`);
+                for (const element of elements) {
+                    if (element.textContent.trim() === header.text) {
+                        element.id = header.id;
+                        break;
+                    }
+                }
+            });
+        }
+    });
 </script>
 
 <div class="flex flex-col w-full gap-5 ~max-w-[21.25rem]/4xl">
@@ -39,7 +55,7 @@
 </div>
         <p class="text-xs credit">{@html post.imageCredit}</p>
     </div>
-    <div class="prose w-full max-w-none mt-3">
+    <div bind:this={contentDiv} class="prose w-full max-w-none mt-3">
         {@html compiledHtml.code}
     </div>
 </div>
