@@ -6,6 +6,7 @@
 
 	let { posts }: { posts: Posts } = $props();
 	let currentCategory = $state(0);
+	let isCategoriesOpen = $state(false);
 
 	let filteredPosts = $derived.by(() => {
 		switch (currentCategory) {
@@ -58,9 +59,14 @@
 				<Linkedin />
 			</a>
 		</div>
-		<Filter class="lg:hidden" />
+		<button onclick={() => (isCategoriesOpen = !isCategoriesOpen)}>
+			<Filter />
+		</button>
 		<Categories bind:currentCategory class="hidden lg:flex" />
 	</div>
+	{#if isCategoriesOpen}
+		<Categories bind:currentCategory class="flex place-content-center" />
+	{/if}
 
 	<!-- Posts Section -->
 
