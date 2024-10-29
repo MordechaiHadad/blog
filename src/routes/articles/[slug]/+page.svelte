@@ -21,7 +21,7 @@
 			</button>
 			<h4 class="size-lg font-bold">Table Of Contents</h4>
 			<div
-				class="~max-h-40/max-h-80 flex flex-col gap-2 overflow-y-auto text-wrap p-1 ~max-w-40/60"
+				class="~max-h-40/max-h-80 flex flex-col gap-2 overflow-y-auto text-wrap p-1 ~max-w-48/60"
 			>
 				{#each data.headers.filter((header) => header.level === 2) as header, i}
 					<a class="hover:font-bold" href="#{header.id}">{i}. {header.text}</a>
