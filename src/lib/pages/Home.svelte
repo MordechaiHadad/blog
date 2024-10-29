@@ -39,16 +39,24 @@
 			</p>
 		</div>
 		<div class="hidden flex-col gap-3 place-self-end lg:flex">
-			<Github />
-			<Linkedin />
+			<a href="https://github.com/MordechaiHadad" target="_blank">
+				<Github />
+			</a>
+			<a href="https://www.linkedin.com/in/mordechai-hadad/" target="_blank">
+				<Linkedin />
+			</a>
 		</div>
 	</div>
 
 	<!-- Sorting Section -->
 	<div class="flex size-full justify-between px-2.5 lg:place-content-center">
 		<div class="flex gap-3 lg:hidden">
-			<Github />
-			<Linkedin />
+			<a href="https://github.com/MordechaiHadad" target="_blank">
+				<Github />
+			</a>
+			<a href="https://www.linkedin.com/in/mordechai-hadad/" target="_blank">
+				<Linkedin />
+			</a>
 		</div>
 		<Filter class="lg:hidden" />
 		<Categories bind:currentCategory class="hidden lg:flex" />

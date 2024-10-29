@@ -60,3 +60,10 @@ In short, it seems like EPUBs are ideal for digital e-books due to these factors
 ## The Bottom Line
 
 In short, EPUBs are the clear winner when it comes to e-books reading. They adapt to your screen, respect your comfort and let you focus on what really matters - the content. Keep PDFs for your professional needs and maybe even when you are reading programming books. 
+
+### EPUB Reader Recommendations
+
+This isn't a comprehensive list but here are some of my favorite EPUB readers:
+
+- **Android:** [Lithium](https://play.google.com/store/apps/details?id=com.faultexception.reader&hl=en&pli=1)
+- **Desktop:** [Thorium Reader](https://github.com/edrlab/thorium-reader)
