@@ -24,7 +24,7 @@
 	});
 </script>
 
-<div class="flex w-full flex-col gap-5 ~max-w-[21.25rem]/6xl">
+<div class="flex w-full flex-col gap-5 max-w-[90vw] lg:~max-w-2xl/4xl">
 	<!-- Header Section  -->
 	<div class="flex justify-between">
 		<div
