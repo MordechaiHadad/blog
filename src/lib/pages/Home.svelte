@@ -26,7 +26,7 @@
 
 <div class="flex w-full flex-col gap-5 max-w-[90vw] lg:~max-w-2xl/4xl">
 	<!-- Header Section  -->
-	<div class="flex justify-between">
+	<div class="flex place-content-center lg:justify-between">
 		<div
 			class="flex size-full max-w-[36.313rem] flex-col place-items-center gap-2.5 px-2.5 lg:place-items-start lg:px-0"
 		>
