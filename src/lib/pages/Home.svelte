@@ -64,9 +64,7 @@
 		</button>
 		<Categories bind:currentCategory class="hidden lg:flex" />
 	</div>
-	{#if isCategoriesOpen}
-		<Categories bind:currentCategory class="flex place-content-center" />
-	{/if}
+	<Categories bind:currentCategory class="flex place-content-center" isOpen={isCategoriesOpen} onClickOutside={() => isCategoriesOpen = false} />
 
 	<!-- Posts Section -->
 
