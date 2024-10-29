@@ -2,7 +2,7 @@
 	import type { IContext } from "$lib";
 	import { getContext, onMount } from "svelte";
 	import { Clock, Calendar, ChevronRight } from 'svelte-feathers';
-	import { calculateReadingTime, normalizeApostrophes } from '$lib';
+	import { calculateReadingTime, normalizeApostrophes, updateUrl } from '$lib';
     import { fade } from "svelte/transition";
     
     let { post, compiledHtml, headers } = $props();
@@ -16,6 +16,9 @@
                     
                     if (normalizeApostrophes(element.textContent.trim()) === normalizeApostrophes(header.text)) {
                         element.id = header.id;
+                        element.addEventListener('click', () => updateUrl(header.id));
+                        element.style.cursor = 'pointer';
+
                         break;
                     }
                 }
@@ -67,5 +70,8 @@
     }
     :global(.content h2) {
         scroll-margin-top: 100px; 
+    }
+    :global(.content h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover) {
+        text-decoration: underline;
     }
 </style>

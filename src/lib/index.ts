@@ -40,3 +40,7 @@ export const normalizeApostrophes = (str: string): string => {
     return str.replace(/[\u2018\u2019]/g, "'");
 }
 
+export const updateUrl = (id: string) => {
+    history.pushState(null, '', `#${id}`);
+}
+
