@@ -59,7 +59,7 @@
 				<Linkedin />
 			</a>
 		</div>
-		<button onclick={() => (isCategoriesOpen = !isCategoriesOpen)}>
+		<button onclick={() => (isCategoriesOpen = !isCategoriesOpen)} class="lg:hidden">
 			<Filter />
 		</button>
 		<Categories bind:currentCategory class="hidden lg:flex" />
