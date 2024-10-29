@@ -27,14 +27,14 @@
 		</p>
 	</div>
 	<div class="flex flex-col gap-1">
-		<div class="flex place-items-center gap-1.5 text-start text-xs text-neutral-400">
+		<div class="flex place-items-center gap-1.5 text-start text-xs text-neutral-600 dark:text-neutral-400">
 			<p>
 				{post.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
 			</p>
-			<Circle class="size-1.5 fill-neutral-400" />
+			<Circle class="size-1.5 fill-neutral-600 dark:fill-neutral-400" />
 			<p>{calculateReadingTime(post.content)} minutes read</p>
 		</div>
 		<h2 class="text-start text-lg font-bold">{post.title}</h2>
-		<p class="line-clamp-2 text-start text-sm text-neutral-400">{post.description}</p>
+		<p class="line-clamp-2 text-start text-sm text-neutral-600 dark:text-neutral-400">{post.description}</p>
 	</div>
 </a>

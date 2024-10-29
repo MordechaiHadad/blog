@@ -6,3 +6,7 @@
 	font-family: 'Rubik', sans-serif;
 	scroll-behavior: smooth;
 }
+
+* {
+	@apply transition-colors duration-700 ease-in-out;
+}
