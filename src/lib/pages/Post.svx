@@ -71,7 +71,12 @@
     :global(.content h2) {
         scroll-margin-top: 100px; 
     }
-    :global(.content h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover) {
+    :global(.content h1:hover),
+    :global(.content h2:hover),
+    :global(.content h3:hover),
+    :global(.content h4:hover),
+    :global(.content h5:hover),
+    :global(.content h6:hover) {
         text-decoration: underline;
     }
 </style>
