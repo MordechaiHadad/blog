@@ -9,7 +9,6 @@
 	}
 
 	let { post }: Props = $props();
-	let isImageLoaded = $state(false);
 </script>
 
 <a class="flex flex-col" href="/articles/{post.slug}">
@@ -18,11 +17,7 @@
 			src={post.image}
 			alt="{post.slug} cover"
 			class="rounded-2xl"
-			onload={() => (isImageLoaded = true)}
 		/>
-		<!-- {#if !isImageLoaded}
-			<div class="size-full" ></div>			
-		{/if} -->
 		<p
 			class="absolute left-2.5 top-2.5 z-10 rounded-2xl bg-gray-200 px-3 py-1.5 text-sm dark:bg-zinc-700"
 		>
