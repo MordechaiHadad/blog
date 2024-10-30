@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { clickOutside } from '$lib/actions/clickOutside.js';
 	import Post from '$lib/pages/Post.svx';
-	import { onMount } from 'svelte';
 	import { ChevronRight, ChevronLeft } from 'svelte-feathers';
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 
 	let { data } = $props();
 	let isTableOfContentsVisible = $state(false);

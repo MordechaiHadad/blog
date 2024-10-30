@@ -2,7 +2,7 @@
 	import Categories from '$lib/components/Categories.svelte';
 	import PostCard from '$lib/components/PostCard.svelte';
 	import type { Posts } from '$lib/posts';
-	import { Github, Linkedin, Filter } from 'svelte-feathers';
+	import { Github, Linkedin, Filter, Rss } from 'svelte-feathers';
 
 	let { posts }: { posts: Posts } = $props();
 	let currentCategory = $state(0);
@@ -24,7 +24,7 @@
 	});
 </script>
 
-<div class="flex w-full flex-col gap-5 max-w-[90vw] lg:~max-w-2xl/6xl">
+<div class="flex w-full max-w-[90vw] flex-col gap-5 lg:~max-w-2xl/6xl">
 	<!-- Header Section  -->
 	<div class="flex place-content-center lg:justify-between">
 		<div
@@ -46,6 +46,9 @@
 			<a href="https://www.linkedin.com/in/mordechai-hadad/" target="_blank">
 				<Linkedin />
 			</a>
+			<a href="/rss.xml" target="_blank">
+				<Rss />
+			</a>
 		</div>
 	</div>
 
@@ -58,13 +61,21 @@
 			<a href="https://www.linkedin.com/in/mordechai-hadad/" target="_blank">
 				<Linkedin />
 			</a>
+			<a href="/rss.xml" target="_blank">
+				<Rss />
+			</a>
 		</div>
 		<button onclick={() => (isCategoriesOpen = !isCategoriesOpen)} class="lg:hidden">
 			<Filter />
 		</button>
 		<Categories bind:currentCategory class="hidden lg:flex" />
 	</div>
-	<Categories bind:currentCategory class="flex place-content-center" isOpen={isCategoriesOpen} onClickOutside={() => isCategoriesOpen = false} />
+	<Categories
+		bind:currentCategory
+		class="flex place-content-center"
+		isOpen={isCategoriesOpen}
+		onClickOutside={() => (isCategoriesOpen = false)}
+	/>
 
 	<!-- Posts Section -->
 
