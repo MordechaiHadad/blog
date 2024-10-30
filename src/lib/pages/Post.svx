@@ -31,8 +31,8 @@
 <div class="flex flex-col gap-2.5">
 <div class="flex flex-col size-full md:h-80 gap-1.5 rounded-lg" style="background-image: url({post.image}); background-size: cover; background-position: center;">
     <div class="flex size-full place-content-center flex-col gap-2.5 md:place-items-center bg-neutral-900/60 text-neutral-100 p-2.5 rounded-lg">
-            <h1 class="font-bold text-3xl break-words">{post.title}</h1>
-            <p class="md:text-center">{post.description}</p>
+            <h1 class="font-bold text-3xl break-words md:text-center w-full">{post.title}</h1>
+            <p class="md:text-center w-full break-words">{post.description}</p>
 	        <div class="flex gap-3 text-start ~text-xs/sm flex-wrap">
                 <div class="flex gap-1.5">
                     <Calendar class="size-4" />
