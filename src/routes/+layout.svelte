@@ -37,5 +37,7 @@
 
 	{@render children()}
 
-	<p class="mt-auto">Copyright © 2024  |  All rights reserved.</p>
+    <footer class="mt-auto">
+		<p>Copyright © 2024  |  All rights reserved.</p>
+    </footer>
 </div>

@@ -27,38 +27,38 @@
     });
 </script>
 
-<div class="flex flex-col w-full gap-5 max-w-[90vw] lg:~max-w-2xl/4xl"> 
-<div class="flex flex-col gap-2.5">
-<div class="flex flex-col w-full md:h-80 gap-1.5 rounded-lg" style="background-image: url({post.image}); background-size: cover; background-position: center;">
-    <div class="flex size-full place-content-center flex-col gap-2.5 md:place-items-center bg-neutral-900/60 text-neutral-100 p-2.5 rounded-lg">
-            <h1 class="font-bold text-3xl break-words md:text-center w-full">{post.title}</h1>
-            <p class="md:text-center w-full break-words">{post.description}</p>
-	        <div class="flex gap-3 text-start ~text-xs/sm flex-wrap">
-                <div class="flex gap-1.5">
-                    <Calendar class="size-4" />
-		            <p>
-                        {post.date.toLocaleDateString('en-GB', { 
-                            day: 'numeric', 
-                            month: 'long', 
-                            year: 'numeric', 
-                            hour: '2-digit', 
-                            minute: '2-digit' 
-                        })}
-		            </p>
-                </div>
-                <div class="flex gap-1.5">
-                    <Clock class="size-4" />
-		            <p>{calculateReadingTime(post.content)} minutes read</p>
-                </div>
-	        </div>
-    </div>
-</div>
+<article class="flex flex-col w-full gap-5 max-w-[90vw] lg:~max-w-2xl/4xl"> 
+    <header class="flex flex-col gap-2.5">
+        <div class="flex flex-col w-full md:h-80 gap-1.5 rounded-lg" role="banner" style="background-image: url({post.image}); background-size: cover; background-position: center;">
+            <div class="flex size-full place-content-center flex-col gap-2.5 md:place-items-center bg-neutral-900/60 text-neutral-100 p-2.5 rounded-lg">
+                <h1 class="font-bold text-3xl break-words md:text-center w-full">{post.title}</h1>
+                <p class="md:text-center w-full break-words">{post.description}</p>
+	            <div class="flex gap-3 text-start ~text-xs/sm flex-wrap">
+                    <div class="flex gap-1.5">
+                        <Calendar class="size-4" />
+		                <time datetime={post.date.toISOString()}>
+                            {post.date.toLocaleDateString('en-GB', { 
+                                day: 'numeric', 
+                                month: 'long', 
+                                year: 'numeric', 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                            })}
+		                </time>
+                    </div>
+                    <div class="flex gap-1.5">
+                        <Clock class="size-4" />
+		                <p>{calculateReadingTime(post.content)} minutes read</p>
+                    </div>
+	            </div>
+            </div>
+        </div>
         <p class="text-xs credit">{@html post.imageCredit}</p>
-    </div>
+    </header>
     <div bind:this={contentDiv} class="prose w-full max-w-none mt-3 content">
         {@html compiledHtml.code}
     </div>
-</div>
+</article>
 
 <style>
     :global(.credit a) {

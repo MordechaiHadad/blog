@@ -80,7 +80,7 @@
 	<!-- Posts Section -->
 
 	{#key filteredPosts}
-		<div class="grid grid-cols-1 gap-10 lg:grid-cols-3">
+		<div class="grid grid-cols-1 gap-10 lg:grid-cols-3" aria-label="Blog posts">
 			{#each filteredPosts as post (post.slug)}
 				<PostCard {post} />
 			{/each}

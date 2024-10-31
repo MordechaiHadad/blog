@@ -6,8 +6,9 @@
 	let context: IContext = getContext('context');
 </script>
 
-<div
+<nav
 	class="nav-shadow sticky z-10 top-2 flex w-full place-items-center justify-between rounded-2xl border border-gray-200 py-3.5 ~max-w-[21.25rem]/lg ~px-5/10 dark:border-zinc-700 bg-neutral-100 dark:bg-zinc-800"
+	aria-label="Main navigation"
 >
 	<a class="~text-lg/2xl" href="/">Mordechai's Blog</a>
 	<button onclick={() => toggleDarkMode(context)}>
@@ -17,7 +18,7 @@
 			<Moon class="size-6" />
 		{/if}
 	</button>
-</div>
+</nav>
 
 <style>
 	.nav-shadow {

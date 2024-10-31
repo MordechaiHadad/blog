@@ -22,6 +22,8 @@
 		use:clickOutside={{
 			callback: onClickOutside,
 		}}
+        role="group"
+        aria-label="Filter posts by category"
 	>
 		{#each categories as category, i}
 			<button
@@ -29,7 +31,10 @@
 				i
 					? 'bg-gray-200 dark:bg-zinc-700'
 					: ''}"
+                aria-pressed={currentCategory === i}
+                type="button"
 				onclick={() => (currentCategory = i)}>{category}</button
+
 			>
 		{/each}
 	</div>
