@@ -11,12 +11,12 @@
 	let { post }: Props = $props();
 </script>
 
-<a class="flex flex-col" href="/articles/{post.slug}">
+<a class="flex flex-col gap-0.5" href="/articles/{post.slug}">
 	<div class="relative" aria-labelledby="post-{post.slug}">
 		<img
 			src={post.image}
 			alt="{post.slug} cover"
-			class="rounded-2xl"
+			class="rounded-2xl max-h-[222.5px]"
 		/>
 		<p
 			class="absolute left-2.5 top-2.5 z-10 rounded-2xl bg-gray-200 px-3 py-1.5 text-sm dark:bg-zinc-700"
