@@ -9,7 +9,7 @@
 		onClickOutside?: () => void;
 	} = $props();
 
-	const categories = ['All', 'Rust', 'Svelte', 'Technology'];
+	const categories = ['All', 'Rust', 'Svelte', 'Technology', 'Surrealdb'];
 </script>
 
 {#if isOpen}
