@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { clickOutside } from '$lib/actions/clickOutside.js';
-	import Post from '$lib/pages/Post.svx';
+	import Post from '$lib/pages/Post.svelte';
 	import { ChevronRight, ChevronLeft } from 'svelte-feathers';
 	import { fly } from 'svelte/transition';
 

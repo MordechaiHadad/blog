@@ -3,7 +3,6 @@
 	import Navbar from '$lib/components/Navbar.svelte';
 	import { onMount, setContext } from 'svelte';
 	import '../app.css';
-	export const prerender = true;
 
 	let { children } = $props();
 
