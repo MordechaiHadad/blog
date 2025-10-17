@@ -1,0 +1,8 @@
+---
+title: Creating an Invitation System with SurrealDB
+description: In this post we will delve into how to create an invitation system using SurrealDB.
+date: 2025-10-17 16:30
+image: kate-macate-xmddEHyCisc-unsplash.jpg
+imageCredit: Photo by <a href="https://unsplash.com/@katemacate?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Kate Macate</a> on <a href="https://unsplash.com/photos/white-paper-and-brown-envelope-xmddEHyCisc?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+category: Programming
+---
