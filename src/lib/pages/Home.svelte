@@ -18,6 +18,8 @@
 				return posts.filter((post) => post.category === 'Svelte');
 			case 3:
 				return posts.filter((post) => post.category === 'Technology');
+			case 4:
+				return posts.filter((post) => post.category === 'Surrealdb');
 			default:
 				return posts;
 		}
