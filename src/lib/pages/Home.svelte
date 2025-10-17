@@ -32,7 +32,7 @@
 		>
 			<h1 class="font-bold ~text-2xl/3xl">Hello, Welcome to my blog!</h1>
 			<h4 class="text-center ~text-lg/xl lg:text-start">
-				I am Mordechai, a sponsored open-source software engineer.
+				I am Mordechai, an open-source software engineer.
 			</h4>
 			<p class="text-center ~text-sm/base lg:text-start">
 				Here I will write about many different programming related topics, but might expand beyond
