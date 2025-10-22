@@ -1,13 +1,15 @@
 <script lang="ts">
+	import '../app.css';
+	import 'prism-themes/themes/prism-vsc-dark-plus.css';
+
 	import type { IContext } from '$lib';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import { onMount, setContext } from 'svelte';
-	import '../app.css';
 
 	let { children } = $props();
 
 	let context: IContext = $state({
-		isDarkMode: false,
+		isDarkMode: false
 	});
 
 	const setTheme = () => {
@@ -36,7 +38,7 @@
 
 	{@render children()}
 
-    <footer class="mt-auto">
+	<footer class="mt-auto">
 		<p>Copyright © 2024  |  All rights reserved.</p>
-    </footer>
+	</footer>
 </div>

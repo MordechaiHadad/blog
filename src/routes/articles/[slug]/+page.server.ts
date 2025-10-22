@@ -8,9 +8,21 @@ export async function load({ params, parent }) {
 
 	if (!post) throw error(404, 'Post not found');
 
-
-    const headers = extractHeaders(post.content);
+	const headers = extractHeaders(post.content);
 	const compiledHtml = await compile(post.content);
+
+	if (compiledHtml && typeof compiledHtml.code === 'string') {
+		compiledHtml.code = compiledHtml.code.replace(/\{@html `([\s\S]*?)`\}/g, (_m, inner) => {
+			return inner
+				.replace(/\\u003C/g, '<')
+				.replace(/\\u003E/g, '>')
+				.replace(/\\n/g, '\n')
+				.replace(/\\"/g, '"')
+				.replace(/\\'/g, "'")
+				.replace(/\\\\/g, '\\')
+		});
+	}
+
 	return {
 		post,
 		compiledHtml,

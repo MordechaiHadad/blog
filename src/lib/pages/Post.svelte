@@ -99,4 +99,22 @@
 	:global(.content h6:hover) {
 		text-decoration: underline;
 	}
+
+
+	:global(.content code)::before,
+	:global(.content code)::after {
+		content: none !important;
+		display: none !important;
+	}
+	:global(.content code) {
+		@apply p-1 bg-neutral-200 dark:bg-neutral-600 rounded;
+	}
+	:global(.dark code) {
+		@apply bg-neutral-600/20;
+	}
+
+	:global(.content pre > code) {
+		@apply text-base bg-transparent p-0 rounded-none;
+	}
+	
 </style>
