@@ -1,0 +1,179 @@
+---
+title: Creating a self-learning RAG agent using Rig, SurrealDB and Context7
+description: We will explore how to integrate SurrrealDB with Context7 to implement a self learning RAG agent for Rig.
+date: 2026-02-03 16:42:25
+image: https://images.unsplash.com/photo-1768119997334-bc76e6f60e7d?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+imageCredit: Photo by <a href="https://unsplash.com/@bmpskier?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">MIKE STOLL</a> on <a href="https://unsplash.com/photos/rows-of-old-filing-cabinets-with-labels-wKfAiJTgyK8?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+category: SurrealDB
+---
+
+As devs, we usually hit a wall with LLMs, their knowledge cuts off, and they hallucinate made up syntax for new libraries. One way to mitigate this is self learning RAG agent which we will implement now.
+
+This agent checks its local "brain" (SurrealDB) first. If it doesn't find any answer, it reaches out to a live documentation MCP server (Context7), answers the user, and then **saves that new knowledge back to SurrealDB**. The next time you ask, it would answer using the cached Context7 answer directly instead of using the API.
+
+The stack we will be using: **Rig** for agent orchestration with `derive` and `rmcp` features, **SurrealDB** for embedded vector database and **Context7** as our documentation MCP.
+
+### 1. Vector Store and Embedding Model
+
+We initialize SurrealDB in embedded mode using `SurrealKV`.
+
+```rust
+// Initialize the database connection
+let db = Surreal::new::<Db>("database").await?;
+db.use_ns("rig-surreal").use_db("test").await?;
+
+// Initialize an embedding model
+let fastembed_client = rig_fastembed::Client::new();
+let embedding_model = fastembed_client.embedding_model(&FastembedModel::NomicEmbedTextV15);
+
+// Initialize surrealdb vector store
+let vector_store = SurrealVectorStore::with_defaults(embedding_model.clone(), db.clone());
+let vector_store = Arc::new(vector_store);
+
+// Set static references for use in Context7 tool
+VS.set(vector_store.clone())
+    .map_err(|_| eyre!("Failed to initialize VS"))?;
+EM.set(embedding_model.clone())
+    .map_err(|_| eyre!("Failed to initialize EM"))?;
+```
+
+### 2. Setting up Context7
+
+We use the `rmcp` with `reqwest` crates to establish this transport. This allows our agent to discover the external tools.
+
+We will create a separate transport construction function using the following code (You can honestly do it inline but I separate cuz it looks nicer):
+
+```rust
+pub fn create_mcp_transport() -> WorkerTransport<StreamableHttpClientWorker<Client>> {
+    // Inject context7 api key to headers
+    let context7_api_key = env::var("CONTEXT7_API_KEY").expect("CONTEXT7_API_KEY must be set");
+    let mut headers = HeaderMap::new();
+    headers.insert(
+        HeaderName::from_static("context7_api_key"),
+        HeaderValue::try_from(context7_api_key).expect("Invalid header value"),
+    );
+
+    // Create new reqwest client with context7 api key header
+    let http_client = reqwest::Client::builder()
+        .default_headers(headers)
+        .build()
+        .expect("Failed to build HTTP client");
+
+    StreamableHttpClientTransport::with_client(
+        http_client,
+	     StreamableHttpClientTransportConfig::with_uri("https://mcp.context7.com/mcp"),
+    )
+}
+```
+
+
+And serve it like so:
+```rust
+// Create MCP transport for Context7
+let transport = create_mcp_transport();
+let mcp_client = ().serve(transport).await?;
+let tools = mcp_client.list_tools(Default::default()).await?;
+```
+
+### 3. Creating Save to Memory Tool
+
+This is the most critical part. We define a tool `SaveToMemory` that the LLM can call. When the LLM learns something new from Context7, it calls this function to cache the knowledge.
+
+First define your `KnowledgeSnippet` like this, the following `#[embed]` attribute is used to indicate for rig's Embedding engine which field to embed.
+```rust
+#[derive(Serialize, Deserialize, Debug, Clone, Embed)]
+pub struct KnowledgeSnippet {
+    #[embed]
+    pub content: String,
+    pub topic: String,
+}
+```
+
+Create your statics
+
+*Note: Currently there's no real way to pass parameters to a rig tool made using the macro, so the only way as of now is to either use statics or some other solution, or implement `Tool` trait manually on a struct.*
+```rust
+static VS: OnceLock<Arc<SurrealVectorStore<Db, EmbeddingModel>>> = OnceLock::new();
+static EM: OnceLock<EmbeddingModel> = OnceLock::new();
+```
+
+And define your rig_tool like so:
+```rust
+#[rig_tool(
+    description = "Save knowledge to SurrealDB for future retrieval",
+    required(topic, content)
+)]
+async fn save_to_memory(topic: String, content: String) -> Result<String, ToolError> {
+    let vs = VS.get().expect("db init");
+    let em = EM.get().expect("model init");
+
+    // Embed and insert the new snippet into SurrealDB
+    let snippet = KnowledgeSnippet { topic, content };
+    let embeddings = EmbeddingsBuilder::new(em.clone())
+        .document(snippet)?
+        .build()
+        .await?;
+
+    vs.insert_documents(embeddings).await?;
+    Ok("Saved to memory".to_string())
+}
+```
+
+### 4. The Agent
+
+We dynamically configure the agent. If local memory is found, we use it. If not, we pass the external MCP tools.
+
+```rust
+    let query = "How do I use record references in SurrealDB (2026 syntax)? Use Context7 or something";
+
+    // // Search the database
+    let search_query = VectorSearchRequest::builder()
+        .query(query)
+        .samples(3)
+        .build()?;
+
+    let results = vector_store
+        .top_n::<KnowledgeSnippet>(search_query)
+        .await
+        .unwrap_or_default();
+
+    // fetch the content of the top results and format them as context for the agent
+    let new_context = if results.is_empty() {
+        println!("No relevant local memory found.");
+        "".to_string()
+    } else {
+        results
+            .into_iter()
+            .map(|(score, _, snippet)| {
+                format!(
+                    "[Score: {:.2}] {}: {}",
+                    score, snippet.topic, snippet.content
+                )
+            })
+            .collect::<Vec<_>>()
+            .join("\n")
+    };
+
+
+    let mut agent_builder = openrouter_client
+        .agent("openai/gpt-oss-20b:free")
+        .preamble("You are a funny rust architect assistant... Whenever you use Context7, save the Context7 response to the database using the SaveToMemory tool in detail, do not save otherwise.")
+        .tool(SaveToMemory)
+        .context(&new_context)
+        .default_max_depth(5); // Allow tool use up to 5 levels deep so it can use tools
+
+    // If no relevant context was found in the local memory, enable Context7 tools for the agent to use
+if new_context.is_empty() {
+    println!("Enabled Context7");
+    agent_builder = agent_builder.rmcp_tools(tools.tools, mcp_peer.to_owned());
+}
+```
+
+## Closing Thoughts
+
+This is great for type safety. performance and caching already fetched information. But... this aint perfect as we rely on the model to auto save and you should probably find a better approach than `OnceLock` which I used for this demo.
+
+You can find  the full code here: [GitHub Repo](https://github.com/MordechaiHadad/rig-surreal)
+## Special Thanks
+
+Special thanks for the lead maintainer of Rig, Joshua Mo for helping me navigate Rig, and reviewing this blog post.

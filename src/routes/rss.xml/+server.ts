@@ -10,8 +10,8 @@ export async function GET() {
 		posts.map(async (post) => {
 			if (!post.content || post.content.length === 0) return post;
 			const result = await compile(post.content);
-			const code = result?.code!;
-			return { ...post, content: code };
+			if (!result?.code) return post;
+			return { ...post, content: result.code };
 		})
 	);
 

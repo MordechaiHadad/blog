@@ -2,13 +2,13 @@
 	import '../app.css';
 	import 'prism-themes/themes/prism-vsc-dark-plus.css';
 
-	import type { IContext } from '$lib';
+	import type { Context } from '$lib';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import { onMount, setContext } from 'svelte';
 
 	let { children } = $props();
 
-	let context: IContext = $state({
+	let context: Context = $state({
 		isDarkMode: false
 	});
 
@@ -39,6 +39,6 @@
 	{@render children()}
 
 	<footer class="mt-auto">
-		<p>Copyright © 2024  |  All rights reserved.</p>
+		<p>Copyright © 2024-2026 | All rights reserved.</p>
 	</footer>
 </div>
