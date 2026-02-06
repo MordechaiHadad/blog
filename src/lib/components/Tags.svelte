@@ -8,13 +8,13 @@
 		currentTagIndex: currentTag = $bindable(0),
 		class: className = '',
 		isOpen = $bindable(true),
-		onClickOutside = () => {},
+		onClickOutside = (event: MouseEvent | TouchEvent) => {},
 		tags
 	}: {
 		currentTagIndex?: number;
 		class?: string;
 		isOpen?: boolean;
-		onClickOutside?: () => void;
+		onClickOutside?: (event: MouseEvent | TouchEvent) => void;
 		tags: TagEntry[];
 	} = $props();
 

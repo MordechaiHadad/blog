@@ -63,7 +63,7 @@
 				<Rss />
 			</a>
 		</div>
-		<button onclick={() => (areTagsOpen = !areTagsOpen)}>
+		<button id="filter" onclick={() => (areTagsOpen = !areTagsOpen)}>
 			<Filter />
 		</button>
 	</div>
@@ -74,7 +74,11 @@
 		tags={data.tags}
 		class="flex place-content-center @3xl:hidden"
 		isOpen={areTagsOpen}
-		onClickOutside={() => (areTagsOpen = false)}
+		onClickOutside={(event: MouseEvent | TouchEvent) => {
+			const parent = (event.target as HTMLElement).parentElement;
+			if (!parent) areTagsOpen = false;
+			if (!parent?.id.includes('filter')) areTagsOpen = false;
+		}}
 	/>
 
 	<!-- Posts Section -->

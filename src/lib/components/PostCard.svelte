@@ -12,7 +12,7 @@
 		<p
 			class="absolute top-2.5 left-2.5 z-10 rounded-2xl bg-gray-200 px-3 py-1.5 text-sm dark:bg-zinc-700"
 		>
-			{post.category}
+			{post.tags[0]}
 		</p>
 	</div>
 	<div class="flex flex-col gap-1">
