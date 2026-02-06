@@ -2,6 +2,12 @@ export type Context = {
 	isDarkMode: boolean;
 };
 
+export type TagEntry = {
+	name: string;
+	slug: string;
+	count: number;
+};
+
 export const toggleDarkMode = (context: Context) => {
 	context.isDarkMode = !context.isDarkMode;
 	document.documentElement.classList.toggle('dark', context.isDarkMode);

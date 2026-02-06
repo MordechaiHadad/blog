@@ -13,6 +13,7 @@ export const processPost = async (path: string, slug: string): Promise<Post> => 
 		image: string;
 		imageCredit: string;
 		category: string;
+		tags: string[];
 	};
 
 	return {
@@ -23,7 +24,8 @@ export const processPost = async (path: string, slug: string): Promise<Post> => 
 		image: attributes.image.includes('http') ? attributes.image : `/${attributes.image}`,
 		imageCredit: attributes.imageCredit,
 		category: attributes.category,
-		content
+		content,
+		tags: attributes.tags
 	};
 };
 
@@ -55,6 +57,7 @@ export type Post = {
 	imageCredit: string;
 	category: string;
 	content: string;
+	tags: string[];
 };
 
 export type Posts = Post[];

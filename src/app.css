@@ -1,6 +1,7 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
 	font-family: 'Rubik', sans-serif;
@@ -9,4 +10,8 @@
 
 * {
 	@apply transition-colors duration-500 ease-in-out;
+}
+
+button {
+	cursor: pointer;
 }

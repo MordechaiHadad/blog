@@ -5,13 +5,15 @@ date: 2024-10-23 14:16:25
 image: mari-potter-Zh0mcQuw_EQ-unsplash-ezgif.com-optiwebp.webp
 imageCredit: Photo by <a href="https://unsplash.com/@maripotter?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Mari Potter</a> on <a href="https://unsplash.com/photos/brown-wooden-book-shelf-Zh0mcQuw_EQ?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
 category: Technology
+tags:
+  - Technology
 ---
 
 Currently, in our modern age, we have 2 different file formats that stand out in digital documents: EPUBs and PDFs. Each of them has its strengths and differences, so the question left is which one of these formats we choose for our own document, which I will try to answer in this blog post.
 
 ## My Confession
 
-I will start with a personal story, as an avid book reader (reading multiple books on a daily basis), I have often avoided reading my books in a digital format specifically PDF, although I have tried to. But the process of reading a digital book has been a pain, which has let me develop a "paper supremacy," but why have I developed this dislike? 
+I will start with a personal story, as an avid book reader (reading multiple books on a daily basis), I have often avoided reading my books in a digital format specifically PDF, although I have tried to. But the process of reading a digital book has been a pain, which has let me develop a "paper supremacy," but why have I developed this dislike?
 
 I have one reason, and it is a lack of comfortability. Usually when I want to read a book, I am in a fairly comfortable position, like sitting on a comfortable couch or just being a sloth on my bed with potentially some chamomile tea on the side. Now PDFs are meant to replicate real documents, which 99% of the time don't fit smaller screens like a phone or a tablet (reading on a computer is not really comfortable, so why bother?) So because of that reason you will keep having to zoom and unzoom and move horizontally again and again, which will involve your fingers so often, which will easily break focus and quite often be really annoying (this is a similar case for mangas), so what do we do in this case? EPUB.
 
@@ -30,7 +32,6 @@ I have one reason, and it is a lack of comfortability. Usually when I want to re
 2. Documents that need to be readable on any device.
 3. If you need to embed interactive elements.
 
-
 ## PDF: Precision and Consistency
 
 ### Strengths of PDF:
@@ -47,7 +48,6 @@ I have one reason, and it is a lack of comfortability. Usually when I want to re
 - Academic papers and research documents.
 - Maybe even coding books with very large code blocks.
 
-
 ## A Reader's Opinion
 
 In short, it seems like EPUBs are ideal for digital e-books due to these factors:
@@ -56,10 +56,9 @@ In short, it seems like EPUBs are ideal for digital e-books due to these factors
 2. **Eye-Comfort** Due to the ability to change font sizes, themes, etc., you can read even late at night without any issue.
 3. **Other smart features:** Usually EPUB readers have bookmarks and all of that cool stuff, which makes fast lookups and progress tracking just that much easier.
 
-
 ## The Bottom Line
 
-In short, EPUBs are the clear winner when it comes to e-books reading. They adapt to your screen, respect your comfort and let you focus on what really matters - the content. Keep PDFs for your professional needs and maybe even when you are reading programming books. 
+In short, EPUBs are the clear winner when it comes to e-books reading. They adapt to your screen, respect your comfort and let you focus on what really matters - the content. Keep PDFs for your professional needs and maybe even when you are reading programming books.
 
 ### EPUB Reader Recommendations
 

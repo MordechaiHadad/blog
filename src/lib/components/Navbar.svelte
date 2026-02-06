@@ -1,16 +1,16 @@
 <script lang="ts">
 	import { toggleDarkMode, type Context } from '$lib';
 	import { getContext } from 'svelte';
-	import { Moon, Sun } from 'svelte-feathers';
+	import { Moon, Sun } from 'lucide-svelte';
 
 	let context: Context = getContext('context');
 </script>
 
 <nav
-	class="nav-shadow sticky top-2 z-10 flex w-full place-items-center justify-between rounded-2xl border border-gray-200 bg-neutral-100 py-3.5 ~max-w-[21.25rem]/lg ~px-5/10 dark:border-zinc-700 dark:bg-zinc-800"
+	class="nav-shadow sticky top-2 z-10 flex w-full max-w-85 place-items-center justify-between rounded-2xl border border-gray-200 bg-neutral-100 px-5 py-3.5 @xl:max-w-lg dark:border-zinc-700 dark:bg-zinc-800"
 	aria-label="Main navigation"
 >
-	<a class="~text-lg/2xl" href="/">Mordechai's Blog</a>
+	<a class="text-lg @xl:text-xl" href="/">Mordechai's Blog</a>
 	<button onclick={() => toggleDarkMode(context)}>
 		{#if context.isDarkMode}
 			<Sun class="size-6" />

@@ -4,12 +4,14 @@ description: In this post we will delve into how to create an invitation system 
 date: 2025-10-17 16:30
 image: kate-macate-xmddEHyCisc-unsplash.jpg
 imageCredit: Photo by <a href="https://unsplash.com/@katemacate?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Kate Macate</a> on <a href="https://unsplash.com/photos/white-paper-and-brown-envelope-xmddEHyCisc?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-category: Surrealdb 
+category: Surrealdb
+tags:
+  - SurrealDB
 ---
 
 Usually when building modern applications, there are instances where you want to allow users to invite others to join, whether it's a project, a team or whatever shared thing. Traditional invitation systems need you to handle a lot of infrastructure: token management, validation logic, cron jobs, email services, etc etc. But what if I told you that SurrealDB does most of this natively?
 
-## The Challenge 
+## The Challenge
 
 Most invitation systems follow a similar pattern: generate a unique token, store it with an expiration date, and so on. Simple in theory but a lot of moving parts in practice, middleware to validate tokens, race condition handling and so on.
 
@@ -18,11 +20,12 @@ SurrealDB's `DEFINE ACCESS ... TYPE RECORD` feature changes this completely. Ins
 ## The Core Architecture
 
 The invitation system has three main pieces:
+
 1. **User Tables** - Primary users (let's call them creators) and secondary users (members)
 2. **Resource Table** - Whatever you're sharing (projects, teams, etc.)
 3. **Invitation Flow** - A temporary authentication mechanism that validates tokens and creates users
 
-## Database Schema 
+## Database Schema
 
 ### User Tables with Permissions
 
@@ -38,15 +41,16 @@ DEFINE FIELD IF NOT EXISTS email ON TABLE creator TYPE string
     ASSERT string::is::email($value);
 DEFINE FIELD IF NOT EXISTS first_name ON TABLE creator TYPE string;
 DEFINE FIELD IF NOT EXISTS last_name ON TABLE creator TYPE string;
-DEFINE FIELD IF NOT EXISTS password ON TABLE creator TYPE string 
+DEFINE FIELD IF NOT EXISTS password ON TABLE creator TYPE string
     PERMISSIONS FOR select NONE;
-DEFINE FIELD IF NOT EXISTS created_at ON TABLE creator TYPE datetime 
+DEFINE FIELD IF NOT EXISTS created_at ON TABLE creator TYPE datetime
     VALUE time::now() READONLY;
 
 DEFINE INDEX IF NOT EXISTS creator_email_idx ON TABLE creator COLUMNS email UNIQUE;
 ```
 
 Some of the features:
+
 - `PERMISSIONS FOR select NONE` basically means that non root users can't query the password (don't forget to encrypt it naturally)
 - Email validation happens on database level with the `ASSERT` keyword
 - `READONLY` fields can't be modified after creation, useful for audit trails like `created_at`.
@@ -56,17 +60,17 @@ Now the member table:
 ```sql
 DEFINE TABLE IF NOT EXISTS member SCHEMAFULL
     PERMISSIONS
-        FOR create WHERE $access = "invitation_accept" OR $access = "creator_access", 
+        FOR create WHERE $access = "invitation_accept" OR $access = "creator_access",
         FOR select WHERE $access = "member_access" OR $access = "creator_access" OR $access = "invitation_accept",
         FOR update, delete WHERE (id = $auth.id AND $access = "member_access") OR (created_by = $auth AND $access = "creator_access");
-        
+
 DEFINE FIELD IF NOT EXISTS email ON TABLE member TYPE string
     ASSERT string::is::email($value);
 DEFINE FIELD IF NOT EXISTS first_name ON TABLE member TYPE string;
 DEFINE FIELD IF NOT EXISTS last_name ON TABLE member TYPE string;
-DEFINE FIELD IF NOT EXISTS password ON TABLE member TYPE string 
+DEFINE FIELD IF NOT EXISTS password ON TABLE member TYPE string
     PERMISSIONS FOR select NONE;
-DEFINE FIELD IF NOT EXISTS created_at ON TABLE member TYPE datetime 
+DEFINE FIELD IF NOT EXISTS created_at ON TABLE member TYPE datetime
     VALUE time::now() READONLY;
 DEFINE FIELD IF NOT EXISTS created_by ON TABLE member TYPE record<creator>;
 
@@ -82,26 +86,27 @@ DEFINE TABLE resource SCHEMAFULL
     PERMISSIONS
         FOR create WHERE $access = "creator_access",
         FOR update, delete WHERE creator = $auth.id AND $access = "creator_access",
-        FOR select WHERE (creator = $auth.id AND $access = "creator_access") 
+        FOR select WHERE (creator = $auth.id AND $access = "creator_access")
             OR (SELECT id FROM membership WHERE in = $auth.id AND out = $parent.id);
 
-DEFINE FIELD creator ON resource TYPE option<record<creator>> 
+DEFINE FIELD creator ON resource TYPE option<record<creator>>
     VALUE $auth READONLY;
 DEFINE FIELD title ON resource TYPE string;
 DEFINE FIELD created_at ON resource TYPE datetime VALUE time::now() READONLY;
 
-DEFINE TABLE membership TYPE RELATION IN member OUT resource  
+DEFINE TABLE membership TYPE RELATION IN member OUT resource
     PERMISSIONS
-        FOR create WHERE ($access = "creator_access" AND out.creator = $auth.id) 
+        FOR create WHERE ($access = "creator_access" AND out.creator = $auth.id)
             OR $access = "invitation_accept",
-        FOR select WHERE in = $auth.id 
-            OR ($access = "creator_access" AND out.creator = $auth.id) 
+        FOR select WHERE in = $auth.id
+            OR ($access = "creator_access" AND out.creator = $auth.id)
             OR ($access = "invitation_accept" AND $auth.resource = out.id);
 
 DEFINE FIELD created_at ON membership TYPE datetime VALUE time::now() READONLY;
 ```
 
 A few things worth noting here:
+
 - `VALUE $auth READONLY` automatically sets the creator from the authenticated session
 - The `$parent.id` variable is a SurrealDB feature that lets you reference the parent record in subqueries. Here, when checking if a member can select a resource, the subquery looks for a membership relationship where `$parent.id` refers to the resource being queried. This enables graph-based permission checks without manual joins.
 - `RELATE` syntax creates the many-to-many relationship between members and resources
@@ -130,6 +135,7 @@ DEFINE ACCESS invitation_accept ON DATABASE TYPE RECORD
 ```
 
 What is happening here?
+
 - No `SIGNUP` clause - this is signin-only
 - Custom validation runs during authentication
 - Returns the invitation record, which becomes `$auth` in later queries
@@ -142,9 +148,9 @@ The invitation table:
 DEFINE TABLE invitation SCHEMAFULL
     PERMISSIONS
         FOR create WHERE $access = 'creator_access',
-        FOR select WHERE creator = $auth.id 
+        FOR select WHERE creator = $auth.id
             OR ($access = "invitation_accept" AND id = $auth.id),
-        FOR update WHERE creator = $auth.id 
+        FOR update WHERE creator = $auth.id
             OR ($access = 'invitation_accept' AND id = $auth.id);
 
 DEFINE FIELD creator ON invitation TYPE record<creator> VALUE $auth READONLY;
@@ -188,6 +194,7 @@ This will basically create the token, check if the user exists, and then create 
 The acceptance flow uses a two-step process - first authenticate using the invitation token, then execute the acceptance transaction:
 
 **Step 1: Authenticate**
+
 ```rust
 let auth_db = Surreal::new::<Http>(&db_url).await?;
 
@@ -202,6 +209,7 @@ let _jwt = auth_db.signin(Record {
 ```
 
 **Step 2: Execute acceptance**
+
 ```sql
 BEGIN TRANSACTION;
 
@@ -210,9 +218,9 @@ LET $inv_row = $inv[0];
 
 -- Create or retrieve existing member
 LET $existing_member = SELECT VALUE id FROM member WHERE email = $inv_row.email LIMIT 1;
-LET $member = IF array::len($existing_member) > 0 { 
+LET $member = IF array::len($existing_member) > 0 {
     $existing_member[0]
-} ELSE { 
+} ELSE {
     (CREATE member CONTENT {
         email: $inv_row.email,
         first_name: $first_name,
@@ -223,16 +231,16 @@ LET $member = IF array::len($existing_member) > 0 {
 };
 
 -- Create membership relationship
-LET $existing_membership = SELECT VALUE id FROM membership 
+LET $existing_membership = SELECT VALUE id FROM membership
     WHERE in = $member.id AND out = $inv_row.resource LIMIT 1;
 IF array::len($existing_membership) = 0 {
     RELATE $member.id->membership->$inv_row.resource;
 };
 
 -- Mark invitation as used
-UPDATE $inv_row.id MERGE { 
-    used_at: time::now(), 
-    used_by: $member.id 
+UPDATE $inv_row.id MERGE {
+    used_at: time::now(),
+    used_by: $member.id
 };
 
 RETURN $member;
@@ -243,5 +251,5 @@ This flow is quite elegant I would say, authenticate with the invitation token, 
 
 ## Security Considerations
 
-- **Token expiration:** Keep the JWT duration short, while keeping the actual invitation record expiration longer for long term validity. 
+- **Token expiration:** Keep the JWT duration short, while keeping the actual invitation record expiration longer for long term validity.
 - **Permission Isolation:** The `invitation_accept` access has minimal permissions, member create and select, and it can only read its own invitation record. For extra security, you can restrict non-email fields to `PERMISSIONS FOR select NONE WHERE $access = "invitation_accept"` when using this access method.

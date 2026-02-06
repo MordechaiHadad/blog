@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Clock, Calendar } from 'svelte-feathers';
+	import { Clock, Calendar } from 'lucide-svelte';
 	import { calculateReadingTime, normalizeApostrophes, updateUrl } from '$lib';
-	import type { IPost } from '$lib/posts';
+	import type { Post } from '$lib/posts';
 
 	let {
 		post,
 		compiledHtml,
 		headers
 	}: {
-		post: IPost;
+		post: Post;
 		compiledHtml:
 			| {
 					code: string;
@@ -45,19 +45,21 @@
 	});
 </script>
 
-<article class="flex w-full max-w-[90vw] flex-col gap-5 lg:~max-w-2xl/4xl">
+<article class="flex w-full max-w-[90vw] flex-col gap-5 @3xl:max-w-2xl @6xl:max-w-4xl">
 	<header class="flex flex-col gap-2.5">
 		<div
-			class="flex w-full flex-col gap-1.5 rounded-lg md:h-80"
+			class="flex w-full flex-col gap-1.5 rounded-lg @lg:h-80"
 			role="banner"
 			style="background-image: url({post.image}); background-size: cover; background-position: center;"
 		>
 			<div
-				class="flex size-full flex-col place-content-center gap-2.5 rounded-lg bg-neutral-900/60 p-2.5 text-neutral-100 md:place-items-center"
+				class="flex size-full flex-col place-content-center gap-2.5 rounded-lg bg-neutral-900/60 p-2.5 text-neutral-100 @lg:place-items-center"
 			>
-				<h1 class="w-full break-words text-3xl font-bold md:text-center">{post.title}</h1>
-				<p class="w-full break-words md:text-center">{post.description}</p>
-				<div class="flex flex-wrap gap-3 text-start ~text-xs/sm">
+				<h1 class="w-full text-2xl font-bold wrap-break-word @lg:text-center @lg:text-3xl">
+					{post.title}
+				</h1>
+				<p class="w-full wrap-break-word @lg:text-center">{post.description}</p>
+				<div class="flex flex-wrap gap-3 text-start text-xs @lg:text-sm">
 					<div class="flex gap-1.5">
 						<Calendar class="size-4" />
 						<time datetime={post.date.toISOString()}>
@@ -79,27 +81,23 @@
 		</div>
 		<p class="credit text-xs">{@html post.imageCredit}</p>
 	</header>
-	<div bind:this={contentDiv} class="content prose mt-3 w-full max-w-none">
+	<div
+		bind:this={contentDiv}
+		class="content prose prose-headings:underline prose-code:text-neutral-900 dark:prose-code:text-neutral-100 prose-headings:text-neutral-900 dark:prose-headings:text-neutral-100 prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 dark:prose-a:text-neutral-100 mt-3 w-full max-w-none text-neutral-900 dark:text-neutral-100"
+	>
 		{@html compiledHtml?.code}
 	</div>
 </article>
 
 <style>
+	@reference "tailwindcss";
+
 	:global(.credit a) {
 		@apply text-blue-500;
 	}
 	:global(.content h2) {
 		scroll-margin-top: 100px;
 	}
-	:global(.content h1:hover),
-	:global(.content h2:hover),
-	:global(.content h3:hover),
-	:global(.content h4:hover),
-	:global(.content h5:hover),
-	:global(.content h6:hover) {
-		text-decoration: underline;
-	}
-
 
 	:global(.content code)::before,
 	:global(.content code)::after {
@@ -107,14 +105,10 @@
 		display: none !important;
 	}
 	:global(.content code) {
-		@apply p-1 bg-neutral-200 dark:bg-neutral-600 rounded;
-	}
-	:global(.dark code) {
-		@apply bg-neutral-600/20;
+		@apply rounded bg-neutral-200 p-1 dark:bg-neutral-600/20;
 	}
 
 	:global(.content pre > code) {
-		@apply text-base bg-transparent p-0 rounded-none;
+		@apply rounded-none bg-transparent p-0 text-base;
 	}
-	
 </style>

@@ -1,0 +1,22 @@
+[
+	{
+		"name": "SurrealDB",
+		"slug": "surrealdb",
+		"count": 2
+	},
+	{
+		"name": "AI",
+		"slug": "ai",
+		"count": 1
+	},
+	{
+		"name": "Rust",
+		"slug": "rust",
+		"count": 1
+	},
+	{
+		"name": "Technology",
+		"slug": "technology",
+		"count": 1
+	}
+]

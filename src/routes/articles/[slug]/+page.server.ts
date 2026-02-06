@@ -19,7 +19,7 @@ export async function load({ params, parent }) {
 				.replace(/\\n/g, '\n')
 				.replace(/\\"/g, '"')
 				.replace(/\\'/g, "'")
-				.replace(/\\\\/g, '\\')
+				.replace(/\\\\/g, '\\');
 		});
 	}
 
