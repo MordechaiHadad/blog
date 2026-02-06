@@ -22,7 +22,7 @@
 			aria-label="Table of contents"
 		>
 			<button
-				class="-translate-x-2 cursor-pointer"
+				class="-translate-x-2"
 				onclick={() => (isTableOfContentsVisible = false)}
 				aria-label="Close table of contents"
 			>
