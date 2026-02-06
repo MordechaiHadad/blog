@@ -18,7 +18,7 @@
 </script>
 
 <nav
-	class="nav-shadow sticky top-2 z-20 flex w-full max-w-85 place-items-center justify-between rounded-2xl border transition-all duration-500 ease-in-out {!scrolled
+	class="nav-shadow sticky top-2 z-20 flex w-full max-w-85 place-items-center justify-between rounded-2xl border transition-all duration-300 ease-in-out {!scrolled
 		? 'border-transparent'
 		: 'border-gray-200 dark:border-zinc-700'} bg-neutral-100 px-5 py-3.5 @xl:max-w-lg dark:bg-zinc-800"
 	class:scrolled
