@@ -83,7 +83,7 @@
 	</header>
 	<div
 		bind:this={contentDiv}
-		class="content prose prose-headings:underline prose-code:text-neutral-900 dark:prose-code:text-neutral-100 prose-headings:text-neutral-900 dark:prose-headings:text-neutral-100 prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 dark:prose-a:text-neutral-100 mt-3 w-full max-w-none text-neutral-900 dark:text-neutral-100"
+		class="content prose prose-code:text-neutral-900 dark:prose-code:text-neutral-100 prose-headings:text-neutral-900 dark:prose-headings:text-neutral-100 prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 dark:prose-a:text-neutral-100 mt-3 w-full max-w-none text-neutral-900 dark:text-neutral-100"
 	>
 		{@html compiledHtml?.code}
 	</div>

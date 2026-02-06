@@ -17,6 +17,8 @@ This agent checks its local "brain" (SurrealDB) first. If it doesn't find any an
 
 The stack we will be using: **Rig** for agent orchestration with `derive` and `rmcp` features, **SurrealDB** for embedded vector database and **Context7** as our documentation MCP.
 
+## The Implementation
+
 ### 1. Vector Store and Embedding Model
 
 We initialize SurrealDB in embedded mode using `SurrealKV`.
@@ -182,6 +184,6 @@ This is great for type safety. performance and caching already fetched informati
 
 You can find the full code here: [GitHub Repo](https://github.com/MordechaiHadad/rig-surreal)
 
-## Special Thanks
+### Special Thanks
 
 Special thanks for the lead maintainer of Rig, Joshua Mo for helping me navigate Rig, and reviewing this blog post.

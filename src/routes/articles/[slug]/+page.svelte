@@ -16,25 +16,27 @@
 <div class="relative">
 	{#if isTableOfContentsVisible}
 		<nav
-			class="fixed top-[42%] right-0 z-10 flex flex-col gap-4 rounded-md border border-gray-200 bg-neutral-100 p-4 shadow-md dark:border-zinc-700 dark:bg-neutral-900"
+			class="fixed top-[42%] right-0 z-10 flex flex-col gap-2 rounded-md border border-gray-200 bg-neutral-100 p-4 shadow-md dark:border-zinc-700 dark:bg-neutral-900"
 			transition:fly={{ x: 50, duration: 500 }}
 			use:clickOutside={{ callback: () => (isTableOfContentsVisible = false), allowSwipe: true }}
 			aria-label="Table of contents"
 		>
 			<button
-				class="-translate-x-2"
+				class="flex -translate-x-2"
 				onclick={() => (isTableOfContentsVisible = false)}
 				aria-label="Close table of contents"
 			>
 				<ChevronRight class="size-6" />
+				<h4 class="size-lg font-bold">Table Of Contents</h4>
 			</button>
-			<h4 class="size-lg font-bold">Table Of Contents</h4>
 			<div
-				class="flex max-h-40 max-w-48 flex-col gap-2 overflow-y-auto p-1 text-wrap @xl:max-h-80 @xl:max-w-60"
+				class="divide- flex max-h-40 max-w-48 flex-col gap-2 overflow-y-auto p-1 text-wrap @xl:max-h-80 @xl:max-w-60"
 			>
 				{#each data.headers.filter((header) => header.level === 2) as header, i}
-					<a class="hover:font-bold" href="#{header.id}" aria-label="Jump to section: {header.text}"
-						>{i}. {header.text}</a
+					<a
+						class="border-b border-gray-200 py-2 transition-colors duration-200 ease-in-out hover:text-blue-500 dark:border-gray-800"
+						href="#{header.id}"
+						aria-label="Jump to section: {header.text}">{i}. {header.text}</a
 					>
 				{/each}
 			</div>
