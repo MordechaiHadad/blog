@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { clickOutside } from '$lib/actions/clickOutside.js';
 	import Post from '$lib/pages/Post.svelte';
-	import { ChevronRight, ChevronLeft } from 'lucide-svelte';
+	import { ChevronRight, ChevronLeft } from '@lucide/svelte';
 	import { fly } from 'svelte/transition';
 
 	let { data } = $props();
@@ -32,7 +32,7 @@
 			<div
 				class="divide- flex max-h-40 max-w-48 flex-col gap-2 overflow-y-auto p-1 text-wrap @xl:max-h-80 @xl:max-w-60"
 			>
-				{#each data.headers.filter((header) => header.level === 2) as header, i}
+				{#each data.headers.filter((header: { level: number; text: string; id: string }) => header.level === 2) as header, i}
 					<a
 						class="border-b border-gray-200 py-2 transition-colors duration-200 ease-in-out hover:text-blue-500 dark:border-gray-800"
 						href="#{header.id}"

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Clock, Calendar } from 'lucide-svelte';
+	import { Clock, Calendar } from '@lucide/svelte';
 	import { calculateReadingTime, normalizeApostrophes, updateUrl } from '$lib';
 	import type { Post } from '$lib/posts';
 

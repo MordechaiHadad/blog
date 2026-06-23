@@ -1,4 +1,3 @@
-import { Glob } from 'bun';
 import matter from 'gray-matter';
 import { resolve, join } from 'path';
 
@@ -8,16 +7,17 @@ interface TagEntry {
 	count: number;
 }
 
-const POSTS_DIR = resolve(import.meta.dir, '../posts');
-const OUTPUT_PATH = resolve(import.meta.dir, '../static/tags.json');
+const POSTS_DIR = resolve(import.meta.dirname!, '../posts');
+const OUTPUT_PATH = resolve(import.meta.dirname!, '../static/tags.json');
 
 async function buildTags() {
-	const glob = new Glob('*.svx');
 	const tagMap = new Map<string, { name: string; count: number }>();
 
-	for await (const file of glob.scan(POSTS_DIR)) {
-		const filePath = join(POSTS_DIR, file);
-		const content = await Bun.file(filePath).text();
+	for await (const entry of Deno.readDir(POSTS_DIR)) {
+		if (!entry.isFile || !entry.name.endsWith('.svx')) continue;
+
+		const filePath = join(POSTS_DIR, entry.name);
+		const content = await Deno.readTextFile(filePath);
 		const { data } = matter(content);
 
 		const tags: string[] | undefined = data.tags;
@@ -43,7 +43,7 @@ async function buildTags() {
 		}))
 		.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 
-	await Bun.write(OUTPUT_PATH, JSON.stringify(tags, null, 2));
+	await Deno.writeTextFile(OUTPUT_PATH, JSON.stringify(tags, null, 2));
 
 	console.log(`✅ Built tags.json with ${tags.length} tags from ${POSTS_DIR}`);
 	for (const tag of tags) {
@@ -53,5 +53,5 @@ async function buildTags() {
 
 buildTags().catch((err) => {
 	console.error('❌ Failed to build tags:', err);
-	process.exit(1);
+	Deno.exit(1);
 });

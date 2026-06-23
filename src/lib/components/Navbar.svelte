@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { toggleDarkMode, type Context } from '$lib';
 	import { getContext, onMount } from 'svelte';
-	import { Moon, Sun } from 'lucide-svelte';
+	import { Moon, Sun } from '@lucide/svelte';
 
 	let context: Context = getContext('context');
 	let scrolled = $state(false);

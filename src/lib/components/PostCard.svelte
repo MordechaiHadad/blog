@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { calculateReadingTime } from '$lib';
 	import type { Post } from '$lib/posts';
-	import { Circle } from 'lucide-svelte';
+	import { Circle } from '@lucide/svelte';
 
 	let { post }: { post: Post } = $props();
 </script>

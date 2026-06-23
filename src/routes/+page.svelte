@@ -1,9 +1,10 @@
 <script lang="ts">
 	import Tags from '$lib/components/Tags.svelte';
 	import PostCard from '$lib/components/PostCard.svelte';
-	import { Filter, Rss } from 'lucide-svelte';
+	import { Filter, Rss } from '@lucide/svelte';
 	import { SiGithub } from '@icons-pack/svelte-simple-icons';
 	import Linkedin from '$lib/icons/Linkedin.svelte';
+	import type { Post } from '$lib/posts';
 
 	let { data } = $props();
 	let currentTagIndex = $state(0);
@@ -13,7 +14,7 @@
 		if (currentTagIndex === 0) return data.posts;
 
 		const currentTag = data.tags[currentTagIndex - 1];
-		return data.posts.filter((post) => post.tags.includes(currentTag.name));
+		return data.posts.filter((post: Post) => post.tags.includes(currentTag.name));
 	});
 </script>
 
